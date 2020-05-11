@@ -30,12 +30,12 @@ public class Controllernya implements Hitung {
                 }
                 else{
                     try{
-                        int nilaiTulis =Integer.parseInt(viewNya.getNilaiTulis());
-                        int nilaiCoding =Integer.parseInt(viewNya.getNilaiCoding());
-                        int nilaiWawancara =Integer.parseInt(viewNya.getNilaiWawancara());
-                        int nilaiM_or_J =Integer.parseInt(viewNya.getNilaiMicro_or_Jar());
+                        double nilaiTulis =Double.parseDouble(viewNya.getNilaiTulis());
+                        double nilaiCoding =Double.parseDouble(viewNya.getNilaiCoding());
+                        double nilaiWawancara =Double.parseDouble(viewNya.getNilaiWawancara());
+                        double nilaiM_or_J =Double.parseDouble(viewNya.getNilaiMicro_or_Jar());
                         int cek =0;
-                        int[] dataAngka = {nilaiTulis, nilaiCoding, nilaiWawancara,nilaiM_or_J};
+                        double[] dataAngka = {nilaiTulis, nilaiCoding, nilaiWawancara,nilaiM_or_J};
                         for (int i = 0; i < 4; i++) {
                             if (cekAngka(dataAngka[i])) {
                                 cek++;
@@ -45,7 +45,8 @@ public class Controllernya implements Hitung {
                             throw new IllegalArgumentException("Nilai angka harus 0-100");
                         }
                         else{
-                            int total = nilaiTulis+nilaiCoding+nilaiWawancara+nilaiM_or_J;
+                            double total = nilaiTulis+nilaiCoding+nilaiWawancara+nilaiM_or_J;
+                            System.out.println(hitung(total));
                             viewNya.rata.setText(Double.toString(hitung(total)));
                             if (hitung(total)>85){
                                 viewNya.status.setText("Lolos");
@@ -59,11 +60,13 @@ public class Controllernya implements Hitung {
                         viewNya.lnilaiC.setText(viewNya.getNilaiCoding());
                         viewNya.lnilaiW.setText(viewNya.getNilaiWawancara());
                         viewNya.lnilaiMorJ.setText(viewNya.getNilaiMicro_or_Jar());
-                    } catch (IllegalArgumentException error){
-                        JOptionPane.showMessageDialog(null,error.getMessage() );
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex) {
                         System.out.println(ex.getMessage());
-                        JOptionPane.showMessageDialog(null, "Input nilai harus integer");
+                        if(ex.getMessage().startsWith("For input"))
+                            JOptionPane.showMessageDialog(null, "Input nilai harus integer");
+                        else
+                            JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
             }
@@ -92,14 +95,14 @@ public class Controllernya implements Hitung {
             }
         });
     }
-    public boolean cekAngka(int angka){
+    public boolean cekAngka(double angka){
         if (angka >=0 && angka <=100) {
             return true;
         }
         return false;
     }
     @Override
-    public double hitung(int angka) {
+    public double hitung(double angka) {
     return angka/4;
     }
 }
